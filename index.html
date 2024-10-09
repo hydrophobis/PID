@@ -1,5 +1,8 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PID Reporting</title>
     <style>
         body {
@@ -13,6 +16,12 @@
             margin: 0; /* Remove default margin */
         }
 
+        .container {
+            display: flex;
+            flex-direction: column; /* Stack textarea and button vertically */
+            align-items: center; /* Center elements horizontally */
+        }
+
         textarea {
             background-color: #1e1e1e; /* Dark textarea background */
             color: #ffffff; /* White text */
@@ -20,6 +29,7 @@
             border-radius: 5px; /* Rounded corners */
             padding: 10px; /* Inner padding */
             resize: none; /* Disable resizing */
+            margin-bottom: 10px; /* Space between textareas and button */
         }
 
         textarea:focus {
@@ -35,7 +45,6 @@
             padding: 10px 20px; /* Inner padding */
             cursor: pointer; /* Pointer cursor */
             font-size: 16px; /* Font size */
-            margin-left: 10px; /* Space between textarea and button */
             transition: background-color 0.3s; /* Smooth transition for hover effect */
         }
 
@@ -47,37 +56,38 @@
 <body>
 
     <div class="container">
-        <textarea id="input" rows="5" cols="25">Report here</textarea>
-        <textarea id="name" rows="1" cols="25">Name</textarea>
+        <textarea id="input" rows="5" cols="25" placeholder="Report here"></textarea>
+        <textarea id="name" rows="1" cols="25" placeholder="Name"></textarea>
         <button id="submit">Submit</button>
     </div>
 
     <script>
-        if(document.getElementById(name).value != null && document.getElementById(name).value != "Name"){
-            document.getElementById('submit').addEventListener('click', function() {
+        document.getElementById('submit').addEventListener('click', function() {
             const report = document.getElementById('input').value;
             const name = document.getElementById('name').value;
 
-            fetch("https://chat.googleapis.com/v1/spaces/AAAAqpBcv5g/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=FYR6tt3EfqwpVbH1fxj3fwOwUcDqyC7sonAzrrS1iIc", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    text: report + "\n-" + name
+            // Check if the name field is not empty and not the placeholder
+            if (name && name !== "Name") {
+                fetch("https://chat.googleapis.com/v1/spaces/AAAAqpBcv5g/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=FYR6tt3EfqwpVbH1fxj3fwOwUcDqyC7sonAzrrS1iIc", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        text: report + "\n-" + name
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Success:", data);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Success:", data);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+            } else {
+                console.error("Name field undefined or empty");
+            }
         });
-            
-        } else {
-            console.error("Name field undefined");
-        }
     </script>
 </body>
+</html>
