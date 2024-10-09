@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PID Reporting</title>
     <style>
-        /* Same styles as before */
         body {
             background-color: #121212; /* Dark background */
             color: #e0e0e0; /* Light text color */
@@ -19,6 +18,7 @@
         .inline-elements {
             display: inline-flex;
             align-items: center; /* Vertically align checkbox and button */
+            gap: 10px; /* Add some space between the checkbox and button */
         }
         .container {
             display: flex;
@@ -51,6 +51,31 @@
         button:hover {
             background-color: #ad0f2f; /* Darker shade on hover */
         }
+
+        /* Custom checkbox styling */
+        .styled-checkbox {
+            appearance: none; /* Hide default checkbox */
+            background-color: #dc143c; /* Button-like background color */
+            color: #ffffff; /* White text */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 20px; /* Inner padding */
+            cursor: pointer; /* Pointer cursor */
+            font-size: 16px; /* Font size */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+        }
+
+        .styled-checkbox:checked {
+            background-color: #ad0f2f; /* Darker shade when checked */
+        }
+
+        .styled-checkbox:after {
+            content: 'Anonymous'; /* Label for the checkbox */
+            color: #ffffff; /* Text color */
+        }
     </style>
 </head>
 <body>
@@ -60,7 +85,7 @@
         <textarea id="name" rows="1" cols="25" placeholder="Name"></textarea>
         <textarea id="secret" rows="1" cols="25" placeholder="Secret"></textarea>
         <div class="inline-elements">
-            <input type="checkbox" id="checkbox1" name="checkbox1">
+            <input type="checkbox" id="checkbox1" class="styled-checkbox">
             <button id="submit">Submit</button>
         </div>
         <p id="responseMessage"></p> <!-- New paragraph to show the response -->
@@ -123,4 +148,3 @@
     
 </body>
 </html>
-
