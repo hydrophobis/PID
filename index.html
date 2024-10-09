@@ -66,7 +66,7 @@
             const secret = document.getElementById('secret').value;
 
             // Send name and secret to webhook
-            fetch('YOUR_WEB_APP_URL', { // Replace with your Google Apps Script Web App URL
+            fetch('https://script.google.com/macros/s/AKfycbzqnnWmCqsYSQwCvQHJpTTgh9cmqMttiMbGPXKvDHPe0AdQ5Rz6PLdaeRC9cIGzbXKu/exec', { // Replace with your Google Apps Script Web App URL
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
