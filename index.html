@@ -66,7 +66,8 @@
             const secret = document.getElementById('secret').value;
 
             // Send name and secret to webhook
-            fetch('https://script.google.com/macros/s/AKfycbw52olJlbT199mDmVZ3WlpvKB8Co7UfKVJtzLG8tTzNkp5B11oZ9S_SLMFq0cPrjT8NcA/exec', { // Replace with your Google Apps Script Web App URL
+            // https://script.google.com/macros/s/AKfycbzbXuDg20u0q6wIbWp5g_GI7vU6mqV16HJ5Qd2_NBADAGfMYHa1h5uJWktFp3AFDO94eg/exec
+            fetch('https://script.google.com/macros/s/AKfycbzbXuDg20u0q6wIbWp5g_GI7vU6mqV16HJ5Qd2_NBADAGfMYHa1h5uJWktFp3AFDO94eg/exec', { // Replace with your Google Apps Script Web App URL
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
