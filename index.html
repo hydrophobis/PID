@@ -1,6 +1,48 @@
 <!DOCTYPE html>
 <head>
     <title>PID Reporting</title>
+    <style>
+        body {
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text color */
+            font-family: Arial, sans-serif; /* Font styling */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+            margin: 0; /* Remove default margin */
+        }
+
+        textarea {
+            background-color: #1e1e1e; /* Dark textarea background */
+            color: #ffffff; /* White text */
+            border: 1px solid #3a3a3a; /* Dark border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px; /* Inner padding */
+            resize: none; /* Disable resizing */
+        }
+
+        textarea:focus {
+            outline: none; /* Remove focus outline */
+            border-color: #6200ea; /* Focus border color */
+        }
+
+        button {
+            background-color: #6200ea; /* Primary button color */
+            color: #ffffff; /* Button text color */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 10px 20px; /* Inner padding */
+            cursor: pointer; /* Pointer cursor */
+            font-size: 16px; /* Font size */
+            margin-left: 10px; /* Space between textarea and button */
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+        }
+
+        button:hover {
+            background-color: #3700b3; /* Darker shade on hover */
+        }
+    </style>
 </head>
 <body>
     <textarea id="input" rows="5" cols="25">Report here</textarea>
