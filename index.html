@@ -58,10 +58,15 @@
     <div class="container">
         <textarea id="input" rows="5" cols="25" placeholder="Report here"></textarea>
         <textarea id="name" rows="1" cols="25" placeholder="Name"></textarea>
+        <textarea id="name" rows="1" cols="25" placeholder="Secret"></textarea>
         <button id="submit">Submit</button>
     </div>
 
     <script> //boiler plate webhook in js
+        names = ["Isaac"];
+        secrets = {
+            "Isaac":"63b063f5b637a3e8ced50585a954606c637c30a9211c4dedfd508dedcbd5c060"
+        }
         document.getElementById('submit').addEventListener('click', function() {
             const report = document.getElementById('input').value;
             const name = document.getElementById('name').value;
