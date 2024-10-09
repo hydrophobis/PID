@@ -16,6 +16,10 @@
             height: 100vh; /* Full viewport height */
             margin: 0; /* Remove default margin */
         }
+        .inline-elements {
+            display: inline-flex;
+            align-items: center; /* Vertically align checkbox and button */
+        }
         .container {
             display: flex;
             flex-direction: column; /* Stack textarea and button vertically */
@@ -55,15 +59,20 @@
         <textarea id="input" rows="5" cols="25" placeholder="Report here"></textarea>
         <textarea id="name" rows="1" cols="25" placeholder="Name"></textarea>
         <textarea id="secret" rows="1" cols="25" placeholder="Secret"></textarea>
-        <button id="submit">Submit</button>
+        <div class="inline-elements">
+            <input type="checkbox" id="checkbox1" name="checkbox1">
+            <button id="submit">Submit</button>
+        </div>
         <p id="responseMessage"></p> <!-- New paragraph to show the response -->
     </div>
 
     <script>
         document.getElementById('submit').addEventListener('click', function() {
             const report = document.getElementById('input').value;
-            const name = document.getElementById('name').value;
+            name = document.getElementById('name').value;
             const secret = document.getElementById('secret').value;
+            const anonBox = document.getElementById('checkbox1');
+            const anon = anonBox.checked;
     
             // Check if fields are filled
             if (!report || !name || !secret) {
@@ -78,6 +87,9 @@
 
             // Validate credentials
             if (secrets[name] == secret) {
+                if(anon == true){
+                    name = "Anonymous";
+                }
                 // Credentials match
                 document.getElementById('responseMessage').textContent = "Match found. Sending report...";
 
