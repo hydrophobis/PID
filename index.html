@@ -58,7 +58,7 @@
     <div class="container">
         <textarea id="input" rows="5" cols="25" placeholder="Report here"></textarea>
         <textarea id="name" rows="1" cols="25" placeholder="Name"></textarea>
-        <textarea id="name" rows="1" cols="25" placeholder="Secret"></textarea>
+        <textarea id="secret" rows="1" cols="25" placeholder="Secret"></textarea>
         <button id="submit">Submit</button>
     </div>
 
@@ -70,9 +70,10 @@
         document.getElementById('submit').addEventListener('click', function() {
             const report = document.getElementById('input').value;
             const name = document.getElementById('name').value;
+            const secret = document.getElementById('secret').value;
 
             // Check if the name field is not empty and not the placeholder
-            if (name && name !== "Name") {
+            if (secret == secrets[name]) {
                 fetch("https://chat.googleapis.com/v1/spaces/AAAAqpBcv5g/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=FYR6tt3EfqwpVbH1fxj3fwOwUcDqyC7sonAzrrS1iIc", {
                     method: "POST",
                     headers: {
