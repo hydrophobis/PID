@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PID Reporting</title>
     <style>
+        /* Same styles as before */
         body {
             background-color: #121212; /* Dark background */
             color: #e0e0e0; /* Light text color */
@@ -15,13 +16,11 @@
             height: 100vh; /* Full viewport height */
             margin: 0; /* Remove default margin */
         }
-
         .container {
             display: flex;
             flex-direction: column; /* Stack textarea and button vertically */
             align-items: center; /* Center elements horizontally */
         }
-
         textarea {
             background-color: #1e1e1e; /* Dark textarea background */
             color: #ffffff; /* White text */
@@ -31,12 +30,10 @@
             resize: none; /* Disable resizing */
             margin-bottom: 10px; /* Space between textareas and button */
         }
-
         textarea:focus {
             outline: none; /* Remove focus outline */
             border-color: #dc143c; /* Focus border color */
         }
-
         button {
             background-color: #dc143c; /* Primary button color */
             color: #ffffff; /* Button text color */
@@ -47,7 +44,6 @@
             font-size: 16px; /* Font size */
             transition: background-color 0.3s; /* Smooth transition for hover effect */
         }
-
         button:hover {
             background-color: #ad0f2f; /* Darker shade on hover */
         }
@@ -60,39 +56,53 @@
         <textarea id="name" rows="1" cols="25" placeholder="Name"></textarea>
         <textarea id="secret" rows="1" cols="25" placeholder="Secret"></textarea>
         <button id="submit">Submit</button>
+        <p id="responseMessage"></p> <!-- New paragraph to show the response -->
     </div>
 
-    <script> //boiler plate webhook in js
-        names = ["Isaac"];
-        secrets = {
-            "Isaac":"63b063f5b637a3e8ced50585a954606c637c30a9211c4dedfd508dedcbd5c060"
-        }
+    <script>
         document.getElementById('submit').addEventListener('click', function() {
             const report = document.getElementById('input').value;
             const name = document.getElementById('name').value;
             const secret = document.getElementById('secret').value;
 
-            // Check if the name field is not empty and not the placeholder
-            if (secret == secrets[name]) {
-                fetch("https://chat.googleapis.com/v1/spaces/AAAAqpBcv5g/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=FYR6tt3EfqwpVbH1fxj3fwOwUcDqyC7sonAzrrS1iIc", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        text: report + "\n-" + name
+            // Send name and secret to webhook
+            fetch('YOUR_WEB_APP_URL', { // Replace with your Google Apps Script Web App URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    credential: name,
+                    password: secret
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('responseMessage').textContent = data.message;
+                
+                if (data.message === "Match found") {
+                    // If credentials are correct, send the report to Google Chat (optional)
+                    fetch("https://chat.googleapis.com/v1/spaces/AAAAqpBcv5g/messages?key=API_KEY&token=TOKEN", { 
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            text: report + "\n-" + name
+                        })
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Success:", data);
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                });
-            } else {
-                console.error("Name field undefined or empty");
-            }
+                    .then(chatResponse => chatResponse.json())
+                    .then(chatData => {
+                        console.log("Message sent to Google Chat:", chatData);
+                    })
+                    .catch((error) => {
+                        console.error("Error sending to Google Chat:", error);
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
         });
     </script>
 </body>
