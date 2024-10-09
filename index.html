@@ -64,10 +64,17 @@
             const report = document.getElementById('input').value;
             const name = document.getElementById('name').value;
             const secret = document.getElementById('secret').value;
-
-            // Send name and secret to webhook
-            // https://script.google.com/macros/s/AKfycbzbXuDg20u0q6wIbWp5g_GI7vU6mqV16HJ5Qd2_NBADAGfMYHa1h5uJWktFp3AFDO94eg/exec
-            fetch('https://script.google.com/macros/s/AKfycbzbXuDg20u0q6wIbWp5g_GI7vU6mqV16HJ5Qd2_NBADAGfMYHa1h5uJWktFp3AFDO94eg/exec', { // Replace with your Google Apps Script Web App URL
+    
+            // Check if fields are filled
+            if (!report || !name || !secret) {
+                alert("Please fill in all fields.");
+                return;
+            }
+    
+            // Alert before fetching
+            alert("Sending data...");
+    
+            fetch('https://script.google.com/macros/s/AKfycbzTiW2izYFOH2H2H5gWwaG3PXvM66ny2Bgq66CubpFintAqDAQFsR98uQzhmMOmytQe8A/exec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -77,12 +84,17 @@
                     password: secret
                 })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    alert("Error: " + response.statusText);
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
-                document.getElementById('responseMessage').textContent = data.message;
-                
+                alert("Response: " + data.message);
                 if (data.message === "Match found") {
-                    // If credentials are correct, send the report to Google Chat (optional)
+                    // Send the report to Google Chat
                     fetch("https://chat.googleapis.com/v1/spaces/AAAAqpBcv5g/messages?key=API_KEY&token=TOKEN", { 
                         method: "POST",
                         headers: {
@@ -94,17 +106,18 @@
                     })
                     .then(chatResponse => chatResponse.json())
                     .then(chatData => {
-                        console.log("Message sent to Google Chat:", chatData);
+                        alert("Message sent to Google Chat.");
                     })
                     .catch((error) => {
-                        console.error("Error sending to Google Chat:", error);
+                        alert("Error sending to Google Chat: " + error);
                     });
                 }
             })
             .catch((error) => {
-                console.error("Error:", error);
+                alert("Fetch error: " + error.message);
             });
         });
     </script>
+    
 </body>
 </html>
