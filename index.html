@@ -98,6 +98,11 @@
             const secret = document.getElementById('secret').value;
             const anonBox = document.getElementById('checkbox1');
             const anon = anonBox.checked;
+
+            document.getElementById('input').value = "";
+            document.getElementById('secret').value = "";
+            document.getElementById('name').value = "";
+            document.getElementById('checkbox1').checked = false;
     
             // Check if fields are filled
             if (!report || !name || !secret) {
