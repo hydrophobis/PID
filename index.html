@@ -98,10 +98,10 @@
                     return chatResponse.json();
                 })
                 .then(chatData => {
-                    document.getElementById('responseMessage').textContent = "Message sent to Google Chat.";
+                    document.getElementById('responseMessage').textContent = "Message sent to Webhook.";
                 })
                 .catch((error) => {
-                    document.getElementById('responseMessage').textContent = "Error sending to Google Chat: " + error;
+                    document.getElementById('responseMessage').textContent = "Error sending to Webhook: " + error;
                 });
             } else {
                 document.getElementById('responseMessage').textContent = "No match found. Likely incorrect credentials";
