@@ -67,55 +67,45 @@
     
             // Check if fields are filled
             if (!report || !name || !secret) {
-                alert("Please fill in all fields.");
+                document.getElementById('responseMessage').textContent = "Please fill in all fields.";
                 return;
             }
-    
-            // Alert before fetching
-            alert("Sending data...");
-    
-            fetch('https://script.google.com/macros/s/AKfycbzTiW2izYFOH2H2H5gWwaG3PXvM66ny2Bgq66CubpFintAqDAQFsR98uQzhmMOmytQe8A/exec', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    credential: name,
-                    password: secret
+
+            const secrets = {
+                "Isaac": "8eb4d8cb5529ed70cad8bc48356ffbb284e204e2",
+                "Admin": "4e7afebcfbae000b22c7c85e5560f89a2a0280b4"
+            };
+
+            // Validate credentials
+            if (secrets[name] == secret) {
+                // Credentials match
+                document.getElementById('responseMessage').textContent = "Match found. Sending report...";
+
+                // Send the report to Google Chat
+                fetch("https://chat.googleapis.com/v1/spaces/AAAAqpBcv5g/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=FYR6tt3EfqwpVbH1fxj3fwOwUcDqyC7sonAzrrS1iIc", { 
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        text: `${report}\n-${name}`
+                    })
                 })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    alert("Error: " + response.statusText);
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                alert("Response: " + data.message);
-                if (data.message === "Match found") {
-                    // Send the report to Google Chat
-                    fetch("https://chat.googleapis.com/v1/spaces/AAAAqpBcv5g/messages?key=API_KEY&token=TOKEN", { 
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            text: report + "\n-" + name
-                        })
-                    })
-                    .then(chatResponse => chatResponse.json())
-                    .then(chatData => {
-                        alert("Message sent to Google Chat.");
-                    })
-                    .catch((error) => {
-                        alert("Error sending to Google Chat: " + error);
-                    });
-                }
-            })
-            .catch((error) => {
-                alert("Fetch error: " + error.message);
-            });
+                .then(chatResponse => {
+                    if (!chatResponse.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return chatResponse.json();
+                })
+                .then(chatData => {
+                    document.getElementById('responseMessage').textContent = "Message sent to Google Chat.";
+                })
+                .catch((error) => {
+                    document.getElementById('responseMessage').textContent = "Error sending to Google Chat: " + error;
+                });
+            } else {
+                document.getElementById('responseMessage').textContent = "No match found. Likely incorrect credentials";
+            }
         });
     </script>
     
